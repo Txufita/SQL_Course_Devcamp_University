@@ -33,26 +33,26 @@ CREATE TABLE Grades (
 );
 
 -- ====================
--- Insert Sample Data
+-- Insert Data
 -- ====================
 INSERT INTO Students (first_name, last_name) VALUES
 ('Ana', 'Johnson'),
 ('Dennis', 'Smith'),
 ('Carlos', 'Brown'),
 ('Diana', 'Miller'),
-('Ethan', 'Davis');
+('Esther', 'Davis');
 
 INSERT INTO Professors (first_name, last_name) VALUES
-('Dr.', 'Anderson'),
+('Dr.', 'Saez'),
 ('Dr.', 'Baker'),
 ('Dr.', 'Clark');
 
 INSERT INTO Courses (course_name, professor_id) VALUES
-('Mathematics', 1),
+('Matematicas', 1),
 ('Computer Science', 2),
-('Physics', 1),
-('History', 3),
-('Biology', 2);
+('Fisica', 1),
+('Historia', 3),
+('Biologia', 2);
 
 INSERT INTO Grades (student_id, course_id, grade) VALUES
 (1, 1, 88.5),
@@ -72,35 +72,38 @@ INSERT INTO Grades (student_id, course_id, grade) VALUES
 -- Queries
 -- ====================
 
--- 1. Average grade given by each professor
+-- 1. Nota media otorgada por cada profesor
+
 SELECT p.first_name, p.last_name, AVG(g.grade) AS avg_grade
 FROM Professors p
 JOIN Courses c ON p.professor_id = c.professor_id
 JOIN Grades g ON c.course_id = g.course_id
 GROUP BY p.professor_id;
 
--- 2. Top grade for each student
+-- 2. Máxima nota para cada estudiante
+
 SELECT s.first_name, s.last_name, MAX(g.grade) AS top_grade
 FROM Students s
 JOIN Grades g ON s.student_id = g.student_id
 GROUP BY s.student_id;
 
--- 3. Sort students by the courses they are enrolled in
+-- 3. Ordenar a los estudiantes por los cursos en los que están inscritos
+
 SELECT s.first_name, s.last_name, c.course_name
 FROM Students s
 JOIN Grades g ON s.student_id = g.student_id
 JOIN Courses c ON g.course_id = c.course_id
 ORDER BY c.course_name, s.last_name;
 
--- 4. Summary report of courses and their average grades
--- (sorted from most challenging to easiest)
+-- 4. Informe resumido de los cursos y sus calificaciones promedio (ordenadas del más difícil al más fácil)
+
 SELECT c.course_name, AVG(g.grade) AS avg_grade
 FROM Courses c
 JOIN Grades g ON c.course_id = g.course_id
 GROUP BY c.course_id
 ORDER BY avg_grade ASC;
 
--- 5. Finding which student and professor have the most courses in common
+-- 5. Encontrar qué estudiante y profesor tienen más cursos en común
 
 SELECT s.first_name, s.last_name, p.first_name AS prof_first, p.last_name AS prof_last,
        COUNT(*) AS common_courses
@@ -111,4 +114,3 @@ JOIN Professors p ON c.professor_id = p.professor_id
 GROUP BY s.student_id, p.professor_id
 ORDER BY common_courses DESC
 LIMIT 1;
-
