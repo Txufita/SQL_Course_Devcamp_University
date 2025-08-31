@@ -1,9 +1,8 @@
 CREATE DATABASE universidad;
 USE universidad;
 
--- ====================
--- Create Tables
--- ====================
+-- Crear Tablas
+
 CREATE TABLE Students (
     student_id INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50),
@@ -32,9 +31,8 @@ CREATE TABLE Grades (
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
 
--- ====================
--- Insert Data
--- ====================
+-- Introducir datos
+
 INSERT INTO Students (first_name, last_name) VALUES
 ('Ana', 'Johnson'),
 ('Dennis', 'Smith'),
@@ -68,9 +66,7 @@ INSERT INTO Grades (student_id, course_id, grade) VALUES
 (5, 5, 73.5),
 (5, 2, 80.0);
 
--- ====================
 -- Queries
--- ====================
 
 -- 1. Nota media otorgada por cada profesor
 
